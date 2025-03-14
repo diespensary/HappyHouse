@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: furniture_store_db
+    environment:
+      - POSTGRES_USER=furniture_user
+      - POSTGRES_PASSWORD=furniture_pass
+      - POSTGRES_DB=furniture_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
