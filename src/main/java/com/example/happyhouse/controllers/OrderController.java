@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/happyhouse/orders")
 @RequiredArgsConstructor
 public class OrderController {
 

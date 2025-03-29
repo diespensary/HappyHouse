@@ -5,23 +5,25 @@ import com.example.happyhouse.dto.DtoConverter;
 import com.example.happyhouse.models.Cart;
 import com.example.happyhouse.services.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/happyhouse/cart")
 @RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<CartDto> getCart(@PathVariable("userId") Long userId) {
+    @ResponseStatus(HttpStatus.OK)
+    public CartDto getCart(@PathVariable("userId") Long userId) {
         Cart cart = cartService.getCartByUserId(userId);
-        return ResponseEntity.ok(DtoConverter.convertCartToDto(cart));
+        return DtoConverter.convertCartToDto(cart);
     }
 
-    @PostMapping("/{userId}/items")
+    @PostMapping("/{userId}")
     public ResponseEntity<CartDto> addProductToCart(@PathVariable("userId") Long userId,
                                                     @RequestParam("productId") Long productId,
                                                     @RequestParam("count") int count) {
@@ -29,14 +31,14 @@ public class CartController {
         return ResponseEntity.ok(DtoConverter.convertCartToDto(cart));
     }
 
-    @PutMapping("/items/{cartItemId}")
+    @PutMapping("/{cartItemId}")
     public ResponseEntity<CartDto> updateCartItemCount(@PathVariable("cartItemId") Long cartItemId,
                                                        @RequestParam("count") int newCount) {
         Cart cart = cartService.updateCartItemCount(cartItemId, newCount);
         return ResponseEntity.ok(DtoConverter.convertCartToDto(cart));
     }
 
-    @DeleteMapping("/items/{cartItemId}")
+    @DeleteMapping("/{cartItemId}")
     public ResponseEntity<CartDto> removeProductFromCart(@PathVariable("cartItemId") Long cartItemId) {
         Cart cart = cartService.removeProductFromCart(cartItemId);
         return ResponseEntity.ok(DtoConverter.convertCartToDto(cart));

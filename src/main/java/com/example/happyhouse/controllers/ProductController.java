@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/happyhouse")
 @RequiredArgsConstructor
 public class ProductController {
 

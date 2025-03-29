@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/happyhouse/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -37,7 +37,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRegistrationDto loginRequest) {
-        // Заглушка для авторизации.
+        // Заглушка для авторизации
         return ResponseEntity.ok("Login functionality not implemented yet.");
     }
 }

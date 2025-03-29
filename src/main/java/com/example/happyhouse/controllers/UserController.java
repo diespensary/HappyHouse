@@ -2,6 +2,7 @@ package com.example.happyhouse.controllers;
 
 import com.example.happyhouse.dto.DtoConverter;
 import com.example.happyhouse.dto.UserDto;
+import com.example.happyhouse.dto.UserUpdateDto;
 import com.example.happyhouse.models.User;
 import com.example.happyhouse.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/happyhouse/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -26,17 +27,8 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUserProfile(@PathVariable("id") Long userId,
-                                                     @RequestBody UserDto userDto) {
-
-        User user = new User();
-        user.setUserId(userId);
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setAddress(userDto.getAddress());
-
-        User updatedUser = userService.updateUserProfile(user);
+                                                     @RequestBody UserUpdateDto userUpdateDto) {
+        User updatedUser = userService.updateUserProfile(userId, userUpdateDto);
         return ResponseEntity.ok(DtoConverter.convertUserToDto(updatedUser));
     }
 }

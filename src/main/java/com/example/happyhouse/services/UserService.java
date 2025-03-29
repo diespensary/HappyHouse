@@ -1,9 +1,11 @@
 package com.example.happyhouse.services;
 
+import com.example.happyhouse.dto.UserUpdateDto;
 import com.example.happyhouse.models.Cart;
 import com.example.happyhouse.models.User;
 import com.example.happyhouse.repositories.CartRepository;
 import com.example.happyhouse.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,7 +42,27 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUserProfile(User user) {
+    public User updateUserProfile(Long userId, UserUpdateDto userUpdateDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+        if (userUpdateDto.getFirstName() != null) {
+            user.setFirstName(userUpdateDto.getFirstName());
+        }
+        if (userUpdateDto.getLastName() != null) {
+            user.setLastName(userUpdateDto.getLastName());
+        }
+        if (userUpdateDto.getPhoneNumber() != null) {
+            user.setPhoneNumber(userUpdateDto.getPhoneNumber());
+        }
+        if (userUpdateDto.getAddress() != null) {
+            user.setAddress(userUpdateDto.getAddress());
+        }
+//        if (userUpdateDto.getPassword() != null && !userUpdateDto.getPassword().isEmpty()) {
+//            user.setPassword(passwordEncoder.encode(userUpdateDto.getPassword()));
+//        }
+
         return userRepository.save(user);
     }
+
 }
