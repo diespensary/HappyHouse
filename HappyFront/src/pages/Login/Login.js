@@ -22,10 +22,10 @@ function Login() {
 				</div>
 				<button className="reg_btn" 
 					type="submit"
-					onClick={() => navigate("/Shop-react2/main")}
+					onClick={() => navigate("/HappyHouse/main")}
 				>Вход</button>
 					<div className='go_to_register'
-						onClick={() => navigate("/Shop-react2/register")}
+						onClick={() => navigate("/HappyHouse/register")}
 					>зарегистрироваться</div>
 			</form>
 			</div>

@@ -1,7 +1,7 @@
 {
   "name": "shop-rct2",
   "version": "0.1.0",
-  "homepage": "https://hprimer.github.io/Shop-react2/",
+  "homepage": "https://hprimer.github.io/HappyHouse/",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
