@@ -1,0 +1,67 @@
+.register_page{
+	justify-content: center;
+	display: flex;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	/* background-color: cadetblue; */
+	position: fixed;
+}
+h1 .logo{
+	
+}
+.registr{
+	height: 51%;
+	/* width: 60%; */
+	/* background-color: #c5b9826e; */
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 40px;
+}
+.registr form{
+	width: 100%;
+}
+.registr input{
+	margin-bottom: 8px;
+	width: 100%;
+}
+.reg_btn{
+	width: 100%;
+	/* background-color: #437cf0; */
+	border: 0;
+	transition: transform 0.5s ease;
+
+	/* background: linear-gradient(45deg,
+	#24C6DC,#0959ce,#514A9D); */
+	background: linear-gradient(45deg, 
+	#24C6DC, #1272ff, #7d73e5);
+	background-size: 200% 200%;
+	animation: gradient 5s ease infinite;
+}
+.reg_btn:hover{
+	transform: scale(1.15);
+	box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5); 
+}
+.go_to_login{
+	cursor: pointer;
+	text-align: center;
+	font-weight: 600;
+	transition: all .5s ease;
+}
+.go_to_login:hover{
+	color: #0e61dd;
+	transform: scale(1.03);
+}
+@keyframes gradient{
+	0%{
+		background-position: 0 50%;
+	}
+	50%{
+		background-position: 100% 50%;
+	}
+	100%{
+		background-position: 0 50%;
+	}
+}

@@ -1,0 +1,34 @@
+/* main{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+}
+main img{
+	width: 100%;
+	border-radius: 10px;
+	transition: transform 500ms ease;
+	margin-bottom: 10px;
+}
+main img:hover{
+	transform: scale(1.05);
+}
+.items{
+	justify-content: center;
+} */
+
+main img{
+	width: 100%;
+	border-radius: 10px;
+	transition: transform 500ms ease;
+	margin-bottom: 10px;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+}
+main img:hover{
+	transform: scale(1.05);
+}
+.items{
+	justify-content: center;
+	gap: 20px;
+}
