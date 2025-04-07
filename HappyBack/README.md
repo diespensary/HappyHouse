@@ -1,1 +1,0 @@
-Online store where you can order furniture
