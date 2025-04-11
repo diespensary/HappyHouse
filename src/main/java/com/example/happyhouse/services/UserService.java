@@ -58,9 +58,6 @@ public class UserService {
         if (userUpdateDto.getAddress() != null) {
             user.setAddress(userUpdateDto.getAddress());
         }
-//        if (userUpdateDto.getPassword() != null && !userUpdateDto.getPassword().isEmpty()) {
-//            user.setPassword(passwordEncoder.encode(userUpdateDto.getPassword()));
-//        }
 
         return userRepository.save(user);
     }
