@@ -4,6 +4,7 @@ import com.example.happyhouse.dto.DtoConverter;
 import com.example.happyhouse.dto.UserDto;
 import com.example.happyhouse.dto.UserRegistrationDto;
 import com.example.happyhouse.models.User;
+import com.example.happyhouse.security.CustomUserDetails;
 import com.example.happyhouse.security.JwtUtil;
 import com.example.happyhouse.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -49,8 +50,10 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(authToken);
 
         if (authentication.isAuthenticated()) {
-            // Генерация JWT-токена
-            String token = jwtUtil.generateToken((org.springframework.security.core.userdetails.User) authentication.getPrincipal());
+            // Приводим authentication.getPrincipal() к вашему типу CustomUserDetails
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            // Генерация JWT-токена с использованием CustomUserDetails
+            String token = jwtUtil.generateToken(userDetails);
             return ResponseEntity.ok(token);
         }
         return ResponseEntity.status(401).body("Invalid credentials");

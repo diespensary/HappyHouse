@@ -7,6 +7,7 @@ import com.example.happyhouse.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,12 +19,14 @@ public class CartController {
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("authentication.principal.id == #userId")
     public CartDto getCart(@PathVariable("userId") Long userId) {
         Cart cart = cartService.getCartByUserId(userId);
         return DtoConverter.convertCartToDto(cart);
     }
 
     @PostMapping("/{userId}")
+    @PreAuthorize("authentication.principal.id == #userId")
     public ResponseEntity<CartDto> addProductToCart(@PathVariable("userId") Long userId,
                                                     @RequestParam("productId") Long productId,
                                                     @RequestParam("count") int count) {

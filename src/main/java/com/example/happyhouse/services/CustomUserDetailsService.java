@@ -2,6 +2,7 @@ package com.example.happyhouse.services;
 
 import com.example.happyhouse.models.User;
 import com.example.happyhouse.repositories.UserRepository;
+import com.example.happyhouse.security.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,11 +21,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail())
-                .password(user.getPasswordHash())
-                .authorities("USER")
-                .build();
+        // Здесь возвращаем собственную реализацию, которая содержит поле id
+        return new CustomUserDetails(user);
     }
 }
-
