@@ -1,6 +1,7 @@
 package com.example.happyhouse.controllers;
 
 import com.example.happyhouse.dto.DtoConverter;
+import com.example.happyhouse.dto.PasswordChangeDto;
 import com.example.happyhouse.dto.UserDto;
 import com.example.happyhouse.dto.UserUpdateDto;
 import com.example.happyhouse.models.User;
@@ -33,5 +34,13 @@ public class UserController {
                                                      @RequestBody UserUpdateDto userUpdateDto) {
         User updatedUser = userService.updateUserProfile(userId, userUpdateDto);
         return ResponseEntity.ok(DtoConverter.convertUserToDto(updatedUser));
+    }
+
+    @PutMapping("/{id}/change-password")
+    @PreAuthorize("authentication.principal.id == #id")
+    public ResponseEntity<?> changePassword(@PathVariable("id") Long id,
+                                            @RequestBody PasswordChangeDto passwordChangeDto) {
+        userService.changePassword(id, passwordChangeDto);
+        return ResponseEntity.ok("Пароль успешно изменён");
     }
 }

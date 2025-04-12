@@ -8,5 +8,4 @@ public class UserUpdateDto {
     private String lastName;
     private String phoneNumber;
     private String address;
-    private String password;
 }

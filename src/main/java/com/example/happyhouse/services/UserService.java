@@ -1,5 +1,6 @@
 package com.example.happyhouse.services;
 
+import com.example.happyhouse.dto.PasswordChangeDto;
 import com.example.happyhouse.dto.UserUpdateDto;
 import com.example.happyhouse.models.Cart;
 import com.example.happyhouse.models.User;
@@ -8,6 +9,7 @@ import com.example.happyhouse.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,10 +21,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     public User registerUser(User user) {
-        // Можно добавить проверки (уникальность email, хеширование пароля и т.п.)
         user.setCreatedAt(LocalDateTime.now());
         User savedUser = userRepository.save(user);
 
@@ -62,4 +65,23 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional
+    public void changePassword(Long userId, PasswordChangeDto passwordDto) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+        // Проверяем, что старый пароль корректен
+        if (!passwordEncoder.matches(passwordDto.getOldPassword(), user.getPasswordHash())) {
+            throw new IllegalArgumentException("Старый пароль указан неверно");
+        }
+
+        /*// Проверяем совпадение нового пароля с подтверждением
+        if (!passwordDto.getNewPassword().equals(passwordDto.getConfirmPassword())) {
+            throw new IllegalArgumentException("Новый пароль и подтверждение не совпадают");
+        }*/
+
+        // Шифруем и сохраняем новый пароль
+        user.setPasswordHash(passwordEncoder.encode(passwordDto.getNewPassword()));
+        userRepository.save(user);
+    }
 }
