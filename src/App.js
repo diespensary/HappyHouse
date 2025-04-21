@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
-// import Categories from './Components/Categories/Categories';
+import React, { useEffect } from "react";
 import Header from './Components/Header/Header';
-// import Presentation from './Components/Presentation/Presentation';
-// import itemsData from './data/products'
-// import Items from './Components/Items/Items';
 import Footer from './Components/Footer/Footer';
 import Main from "./pages/main/Main";
 import Registration from "./pages/Registration/Registration";
 
 
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, Outlet } from 'react-router';
 import Cart from "./pages/Cart/Cart";
 import Login from "./pages/Login/Login";
 import useStore from "./store/store";
@@ -38,78 +34,36 @@ function App() {
     fetchData();
   }, [setItems, setCurrentItems]);
 
+  const MainLayout = () => (
+    <>
+      <Header />
+      <Outlet /> {/* место, для дочерних маршрутов */}
+      <Footer />
+    </>
+  );
+
   return (         
     <Router>
       <div className="App">                     
-        <Routes>
-          {/*Стартовая страница */}
-          <Route path="/HappyHouse"
-            element={<Navigate to="/HappyHouse/login"/>}
-          />
-          {/* Страница входа */}
-          <Route path="/HappyHouse/login"
-            element={ <Login/>}
-          />
-          {/* Страница регистрация */}
-          <Route path="/HappyHouse/register"
-            element={ <Registration/>}
-          />
-          {/* Главная страница с товарами */}
-          <Route 
-            path="/HappyHouse/main" 
-            element={
-              <>
-                <Header  />
-                <Main />
-                <Footer />
-              </>
-            } 
-          />
-          {/* Страница корзины */}
-          <Route 
-            path="/HappyHouse/cart" 
-            element={
-              <>
-                <Header  />
-                <Cart />
-                <Footer />
-              </>
-            } 
-          />
-          {/* Страница товара */}
-          <Route 
-            path="/HappyHouse/product/:id" 
-            element={
-              <>
-                <Header  />
-                <Product_pg />
-                <Footer />
-              </>
-            } 
-          />
-          {/* Страница профиля */}
-          <Route 
-            path="/HappyHouse/profile" 
-            element={
-              <>
-                <Header  />
-                <Profile />
-                <Footer />
-              </>
-            } 
-          />
-          {/* Страница заказов */}
-          <Route 
-            path="/HappyHouse/orders" 
-            element={
-              <>
-                <Header  />
-                <Orders />
-                <Footer />
-              </>
-            } 
-          />
-        </Routes>
+      <Routes>
+        <Route path="/HappyHouse" element={<Navigate to="/HappyHouse/login" replace />} />
+
+
+        <Route path="/HappyHouse/login" element={<Login />} />
+        <Route path="/HappyHouse/register" element={<Registration />} />
+        
+
+        <Route path="/HappyHouse" element={<MainLayout />}>
+          <Route path="main" element={<Main />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="product/:id" element={<Product_pg />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="orders" element={<Orders />} />          
+        </Route>
+        
+        {/* Обработка несуществующих маршрутов */}
+        {/* <Route path="*" element={<NotFound />} /> */}
+      </Routes>
       </div>
     </Router>
   );
