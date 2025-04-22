@@ -1,42 +1,27 @@
 import { create } from 'zustand';
 
-// interface Product {
-//   id: string;
-//   name: string;
-//   image_path: string;
-//   desc: string;
-//   wood_type: string;
-//   category: string;
-//   price: string;
-//   finish: string;
-//   dimensions: {
-//     depth: number;
-//     width: number;
-//     height: number;
-//   };
-//   weight: number;
-// }
-
-// interface StoreState {
-//   items: Product[];
-//   currentItems: Product[];
-//   orders: Product[];
-
-//   setItems: (items: Product[]) => void;
-//   setCurrentItems: (items: Product[]) => void;
-//   addOrder: (item: Product) => void;
-//   addProductToList: (item: Product) => void;
-//   deleteOrder: (id: string) => void;
-//   deleteItem:(id: string) => void;
-//   chooseCategory: (category: string) => void;
-//   toggleFavorite: (item: Product) => void;
-
-// }
-
 const useStore = create((set) => ({
   // items: [],//все товары
   currentItems: [],//товары определенной категории
   orders: [],//товары в корзине
+  user: {
+    id: null,
+    firstName: '',
+    lastName: '',
+  },
+
+  // Обновление данных пользователя
+  setUser: (userData) => set({ user: {...userData} }),
+
+  // Очистка данных пользователя (для выхода из системы)
+  clearUser: () => set({ 
+    user: {
+      id: null,
+      firstName: '',
+      lastName: '',
+      email: ''
+    }
+  }),
 
   
   setItems: (items) => set({ items }), 
@@ -51,26 +36,10 @@ const useStore = create((set) => ({
       return state;
     }),
 
-  // addProductToList:(item) => //добавить в общий список
-  //   set((state) => {
-  //     if (!state.items.some((el) => el.id === item.id)){
-  //       return {items: [item, ...state.items] };
-  //     }
-  //     return state;
-  //   }),
-    
-
   deleteOrder: (id) =>//удалить из корзины 
     set((state) => ({
       orders: state.orders.filter((el) => el.id !== id),
-    })),
-  
-  // deleteItem:(id) =>//удалить из всего списка товаров
-  //   set((state) => ({
-  //     items: state.items.filter((el) => el.id !== id),
-  //     currentItems: state.currentItems.filter((el) => el.id !== id),
-  //   })),
-  
+    })), 
   
   chooseCategory: (category) => //фильтрация товаров 
     set((state) => ({

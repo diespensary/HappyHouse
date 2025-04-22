@@ -10,6 +10,7 @@ import useStore from '../../store/store';
 function Header() {
 	//let [cartOpen, setCartOpen] = useState(false) //хук состояния, по умолчанию false (корзина закрыта)
 	const { orders } = useStore();
+	const {user} = useStore();
 	return (
 	<header className='container'>
 		<div className='containr  navbarr'>
@@ -25,7 +26,7 @@ function Header() {
 				<li>
 					<Link to='/HappyHouse/profile' className='link profile-icon'>
 						<MdManageAccounts style={{'font-size':20}} />
-						<span style={{'font-size':12}}>Имя</span>
+						<span style={{'font-size':12}}>{user.firstName}</span>
 					</Link>
 				</li>				
 				<li className='cart-link'>
