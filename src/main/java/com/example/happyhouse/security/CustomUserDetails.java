@@ -12,6 +12,7 @@ public class CustomUserDetails implements UserDetails {
 
     private final Long id;
     private final String username;
+    private final String userfirstname;
     private final String password;
     // Если у вас есть роли или authorities, можно их добавить
     // private final Collection<? extends GrantedAuthority> authorities;
@@ -19,6 +20,7 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(User user) {
         this.id = user.getUserId(); // Предполагается, что в модели User есть поле userId или id
         this.username = user.getEmail(); // или другой уникальный идентификатор
+        this.userfirstname = user.getFirstName();
         this.password = user.getPasswordHash();
         // Если есть роли:
         // this.authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));

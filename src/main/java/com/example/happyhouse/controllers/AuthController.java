@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/happyhouse/auth")
 @RequiredArgsConstructor
@@ -54,7 +56,11 @@ public class AuthController {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             // Генерация JWT-токена с использованием CustomUserDetails
             String token = jwtUtil.generateToken(userDetails);
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(Map.of(
+                    "accessToken", token,
+                    "userId", userDetails.getId(),
+                    "firstName", userDetails.getUsername()
+            ));
         }
         return ResponseEntity.status(401).body("Invalid credentials");
     }

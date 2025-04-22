@@ -14,6 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -34,21 +39,51 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        return http
+//                // Отключаем csrf через лямбда-конфигурацию
+//                .csrf(csrf -> csrf.disable())
+//                // Конфигурируем сессионное управление через лямбда-конфигурацию
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                // Настраиваем правила доступа через лямбда-конфигурацию
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/happyhouse/auth/register", "/happyhouse/auth/login").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                // Добавляем фильтр JWT перед стандартным фильтром аутентификации
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//                .build();
+//    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                // Отключаем csrf через лямбда-конфигурацию
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Добавляем CORS
                 .csrf(csrf -> csrf.disable())
-                // Конфигурируем сессионное управление через лямбда-конфигурацию
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // Настраиваем правила доступа через лямбда-конфигурацию
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/happyhouse/auth/register", "/happyhouse/auth/login").permitAll()
+                        .requestMatchers(
+                                "/happyhouse/auth/register",
+                                "/happyhouse/auth/login",
+                                "/error"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
-                // Добавляем фильтр JWT перед стандартным фильтром аутентификации
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
