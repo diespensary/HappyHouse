@@ -65,6 +65,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/happyhouse/auth/register",
                                 "/happyhouse/auth/login",
+                                "/happyhouse/auth/refresh",
                                 "/error"
                         ).permitAll()
                         .anyRequest().authenticated()

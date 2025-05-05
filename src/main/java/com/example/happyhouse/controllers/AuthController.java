@@ -3,9 +3,11 @@ package com.example.happyhouse.controllers;
 import com.example.happyhouse.dto.DtoConverter;
 import com.example.happyhouse.dto.UserDto;
 import com.example.happyhouse.dto.UserRegistrationDto;
+import com.example.happyhouse.models.RefreshToken;
 import com.example.happyhouse.models.User;
 import com.example.happyhouse.security.CustomUserDetails;
 import com.example.happyhouse.security.JwtUtil;
+import com.example.happyhouse.services.RefreshTokenService;
 import com.example.happyhouse.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ public class AuthController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenService refreshTokenService;
     private final JwtUtil jwtUtil;
 
     @PostMapping("/register")
@@ -45,23 +48,63 @@ public class AuthController {
         return ResponseEntity.ok(DtoConverter.convertUserToDto(registeredUser));
     }
 
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody UserRegistrationDto loginRequest) {
+//        UsernamePasswordAuthenticationToken authToken =
+//                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+//        Authentication authentication = authenticationManager.authenticate(authToken);
+//
+//        if (authentication.isAuthenticated()) {
+//            // Приводим authentication.getPrincipal() к вашему типу CustomUserDetails
+//            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+//            // Генерация JWT-токена с использованием CustomUserDetails
+//            String token = jwtUtil.generateToken(userDetails);
+//            return ResponseEntity.ok(Map.of(
+//                    "accessToken", token,
+//                    "userId", userDetails.getId(),
+//                    "firstName", userDetails.getUsername()
+//            ));
+//        }
+//        return ResponseEntity.status(401).body("Invalid credentials");
+//    }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserRegistrationDto loginRequest) {
-        UsernamePasswordAuthenticationToken authToken =
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
-        Authentication authentication = authenticationManager.authenticate(authToken);
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
+        );
 
-        if (authentication.isAuthenticated()) {
-            // Приводим authentication.getPrincipal() к вашему типу CustomUserDetails
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            // Генерация JWT-токена с использованием CustomUserDetails
-            String token = jwtUtil.generateToken(userDetails);
-            return ResponseEntity.ok(Map.of(
-                    "accessToken", token,
-                    "userId", userDetails.getId(),
-                    "firstName", userDetails.getUsername()
-            ));
-        }
-        return ResponseEntity.status(401).body("Invalid credentials");
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String accessToken = jwtUtil.generateAccessToken(userDetails);
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getUser());
+
+        return ResponseEntity.ok(Map.of(
+                "accessToken", accessToken,
+                "refreshToken", refreshToken.getToken(),
+                "userId", userDetails.getId(),
+                "firstName", userDetails.getUser().getFirstName()
+        ));
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
+        String refreshToken = request.get("refreshToken");
+
+        return refreshTokenService.findByToken(refreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(token -> {
+                    User user = token.getUser();
+                    String newAccessToken = jwtUtil.generateAccessToken(new CustomUserDetails(user));
+                    RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
+
+                    return ResponseEntity.ok(Map.of(
+                            "accessToken", newAccessToken,
+                            "refreshToken", newRefreshToken.getToken()
+                    ));
+                })
+                .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+    }
+
 }

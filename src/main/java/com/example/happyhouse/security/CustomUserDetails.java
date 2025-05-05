@@ -1,6 +1,7 @@
 package com.example.happyhouse.security;
 
 import com.example.happyhouse.models.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,9 @@ import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
 
+    @Getter
+    private final User user;
+    @Getter
     private final Long id;
     private final String username;
     private final String userfirstname;
@@ -18,6 +22,7 @@ public class CustomUserDetails implements UserDetails {
     // private final Collection<? extends GrantedAuthority> authorities;
 
     public CustomUserDetails(User user) {
+        this.user = user;
         this.id = user.getUserId(); // Предполагается, что в модели User есть поле userId или id
         this.username = user.getEmail(); // или другой уникальный идентификатор
         this.userfirstname = user.getFirstName();
@@ -26,9 +31,6 @@ public class CustomUserDetails implements UserDetails {
         // this.authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
     }
 
-    public Long getId() {
-        return id;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
