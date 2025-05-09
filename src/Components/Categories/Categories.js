@@ -9,9 +9,9 @@ function Categories() {
 	
   const [categories] = useState([
     { key: "all", name: "Все" },
-    { key: "chairs", name: "Стулья" },
-    { key: "sofa", name: "Диваны" },
-    { key: "tables", name: "Столы" },
+    { key: 1, name: "Стулья" },
+    { key: 2, name: "Диваны" },
+    { key: 3, name: "Столы" },
     { key: "lamp", name: "Лампы" },
     // { key: "beds", name: "Кровати" },
     // { key: "cupboards", name: "Шкафы" },

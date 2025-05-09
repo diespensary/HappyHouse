@@ -31,6 +31,7 @@ function Main() {
 				console.error("Ошибка загрузки данных:", error);
 			}
 			};
+
 		
 			fetchData();
 		}, [setItems, setCurrentItems]);

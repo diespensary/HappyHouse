@@ -51,49 +51,6 @@ const fetchUserData = async (userId) => {
 		}
 	};
 
-// function Profile() {
-// 	const [user, setUser] = useState(null);
-// 	const [loading, setLoading] = useState(true);
-// 	const [error, setError] = useState('');
-// 	const userId = localStorage.getItem('userId');
-
-// 	useEffect(() => {
-// 		const loadData = async () => {
-// 		try {
-// 			const data = await fetchUserData(userId);
-// 			setUser(data);
-// 		} catch (err) {
-// 			setError(err.message);
-// 		} finally {
-// 			setLoading(false);
-// 		}
-// 		};
-
-// 		if (userId) {
-// 		loadData();
-// 		} else {
-// 		setError('Пользователь не авторизован');
-// 		setLoading(false);
-// 		}
-// 	}, [userId]);
-
-// 	if (loading) return <div>Загрузка...</div>;
-// 	return (
-		
-// 		<Bg_block header={"Профиль"}>					
-// 			<h1 className='name'>
-// 				<span>{user.firstName} {user.lastName}</span>
-// 				<FaEdit className='edit-icon' />
-// 			</h1>
-// 			<div className='user-email'>{user.email}</div>
-// 			<div className='user-address'>{user.address}</div>
-
-// 			</Bg_block>
-// 	)
-// }
-
-// export default Profile
-
 
 function Profile() {
 	const [user, setUser] = useState(null);
@@ -110,9 +67,9 @@ function Profile() {
 	const userId = localStorage.getItem('userId');
 	// const userId = useStore(state => state.user.id);
 	
-	const toggleChangePassword = () => {
-		setIsChanging(prev => !prev);
-	  };
+	// const toggleChangePassword = () => {
+	// 	setIsChanging(prev => !prev);
+	// };
   
 	// Загрузка данных пользователя
 	useEffect(() => {
