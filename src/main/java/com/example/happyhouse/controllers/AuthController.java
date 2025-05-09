@@ -82,9 +82,9 @@ public class AuthController {
 
         return ResponseEntity.ok(Map.of(
                 "accessToken", accessToken,
-                "refreshToken", refreshToken.getToken(),
-                "userId", userDetails.getId(),
-                "firstName", userDetails.getUser().getFirstName()
+                "refreshToken", refreshToken.getToken()/*,
+//                "userId", userDetails.getId(),
+//                "firstName", userDetails.getUser().getFirstName()*/
         ));
     }
 

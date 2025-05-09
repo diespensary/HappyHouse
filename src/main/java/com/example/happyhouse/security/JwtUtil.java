@@ -75,8 +75,18 @@ public class JwtUtil {
 //                .compact();
 //    }
 
+
     public String generateAccessToken(UserDetails userDetails) {
-        return buildToken(new HashMap<>(), userDetails.getUsername(), accessExpirationMs);
+        Map<String, Object> claims = new HashMap<>();
+        CustomUserDetails customDetails = (CustomUserDetails) userDetails;
+
+        // Добавляем дополнительные данные в claims
+        claims.put("id", customDetails.getId());
+        claims.put("firstName", customDetails.getUser().getFirstName());
+
+        String subject = userDetails.getUsername();
+
+        return buildToken(claims, subject, accessExpirationMs);
     }
     private String buildToken(Map<String, Object> claims, String subject, long expiration) {
         return Jwts.builder()
