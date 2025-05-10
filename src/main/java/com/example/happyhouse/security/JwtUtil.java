@@ -19,12 +19,6 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    // Убедитесь, что ключ имеет длину не менее 32 байт (256 бит)
-//    private final String SECRET_KEY = "mySuperSecretKeyThatIsAtLeast32BytesLong!";
-
-    // Время жизни токена – 10 часов
-//    private final long JWT_TOKEN_VALIDITY = 10 * 60 * 60 * 1000;
-
     @Value("${jwt.secret}")
     private String secret;
 

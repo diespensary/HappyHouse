@@ -20,4 +20,5 @@ spring:
 jwt:
   secret: "mySuperSecretKeyThatIsAtLeast32BytesLong!"
   access-expiration-ms: 36000000  # 10 часов
+#  access-expiration-ms: 300000  # 5 минут
   refresh-expiration-ms: 2592000000  # 30 дней

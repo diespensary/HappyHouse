@@ -1,14 +1,13 @@
 package com.example.happyhouse.controllers;
 
-import com.example.happyhouse.dto.DtoConverter;
-import com.example.happyhouse.dto.UserDto;
-import com.example.happyhouse.dto.UserRegistrationDto;
+import com.example.happyhouse.dto.*;
 import com.example.happyhouse.models.RefreshToken;
 import com.example.happyhouse.models.User;
 import com.example.happyhouse.security.CustomUserDetails;
 import com.example.happyhouse.security.JwtUtil;
 import com.example.happyhouse.services.RefreshTokenService;
 import com.example.happyhouse.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -88,23 +87,50 @@ public class AuthController {
         ));
     }
 
+//    @PostMapping("/refresh")
+//    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
+//        String refreshToken = request.get("refreshToken");
+//
+//        return refreshTokenService.findByToken(refreshToken)
+//                .map(refreshTokenService::verifyExpiration)
+//                .map(token -> {
+//                    User user = token.getUser();
+//                    String newAccessToken = jwtUtil.generateAccessToken(new CustomUserDetails(user));
+//                    RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
+//
+//                    return ResponseEntity.ok(Map.of(
+//                            "accessToken", newAccessToken,
+//                            "refreshToken", newRefreshToken.getToken()
+//                    ));
+//                })
+//                .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+//    }
+    
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
-        String refreshToken = request.get("refreshToken");
+    @Transactional
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequestDto request) {
+        String refreshToken = request.getRefreshToken();
 
         return refreshTokenService.findByToken(refreshToken)
-                .map(refreshTokenService::verifyExpiration)
                 .map(token -> {
+                    // Проверяем срок действия
+                    refreshTokenService.verifyExpiration(token);
+
+                    // Получаем пользователя из токена
                     User user = token.getUser();
+
+                    // Отзываем старый токен И ВСЕ ДРУГИЕ токены этого пользователя
+                    refreshTokenService.revokeAllUserTokens(user.getUserId());
+
+                    // Генерируем новые токены
                     String newAccessToken = jwtUtil.generateAccessToken(new CustomUserDetails(user));
                     RefreshToken newRefreshToken = refreshTokenService.createRefreshToken(user);
 
-                    return ResponseEntity.ok(Map.of(
-                            "accessToken", newAccessToken,
-                            "refreshToken", newRefreshToken.getToken()
+                    return ResponseEntity.ok(new TokenRefreshResponseDto(
+                            newAccessToken,
+                            newRefreshToken.getToken()
                     ));
                 })
                 .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
     }
-
 }
