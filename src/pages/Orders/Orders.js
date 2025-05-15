@@ -56,11 +56,12 @@ const Orders = () => {
         {orders.length === 0 ? (
           <div className="empty-orders">У вас пока нет заказов</div>
         ) : (
-          orders.map(order => (
+          orders.map((order, orderNum=1) => (
             <div key={order.orderId} className="order-card">
               <div className="order-header">
                 <div className="order-meta">
-                  <h3>Заказ №{order.orderId}</h3>
+                  {/* <h3>Заказ №{order.orderId}</h3> */}
+                  <h3>Заказ №{orderNum++}</h3>
                   <span className="order-date">{formatDate(order.createdAt)}</span>
                 </div>
                 <div className="order-total">
@@ -74,7 +75,7 @@ const Orders = () => {
 
               <div className="order-items">
                 <h4>Состав заказа:</h4>
-                {order.orderItems.map(item => (
+                {order.orderItems.map((item) => (
                   <div key={item.orderItemId} className="order-item">
                     <div className="item-info">
                       <span className="item-name">Товар #{item.productId}</span>

@@ -10,7 +10,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { setUser, user,login } = useStore();
+  const { setUser, user, login } = useStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
