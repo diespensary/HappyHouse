@@ -71,14 +71,20 @@ const useStore = create(
             ? state.items
             : state.items.filter((el) => el.categoryId === category),
       })),
-    toggleFavorite: (item) =>
+    // toggleFavorite: (item) =>
+      toggleCart:(item) =>
       set((state) => {
+        const userId = localStorage.getItem('userId');
         const isInCart = state.cart.some((cartItem) => cartItem.productId === item.productId);
+        const cartItem = state.cart.find(c => c.productId === item.productId);
+
         if (isInCart) {
           // Если товар уже в корзине, удаляем его
+          get().removeFromCart(cartItem.cartItemId)
           return { cart: state.cart.filter((cartItem) => cartItem.productId !== item.productId) };
         } else {
           // Если товара нет в корзине, добавляем его
+          get().addToCart(userId, item.productId, 1)
           return { cart: [...state.cart, item] };
         }
       }),
@@ -123,12 +129,12 @@ const useStore = create(
         localStorage.setItem('userId', userDatarow.id);
         // 2. Загружаем данные пользователя
         const userData = await get().fetchUserData(userDatarow.id);
-        console.log(userData)
+        console.log(userData.userId)
         
         // 3. Загружаем корзину
         // const cartData = await get().fetchCart(userId);
-        const cartData = await get().fetchCart(userDatarow.id);
-
+        const cartData = await get().fetchCart(userData.userId);
+        console.log(cartData)
         // get().setUser(userData)
         set({
           user: {
@@ -137,7 +143,7 @@ const useStore = create(
             lastName: userData.lastName,
             email:userData.email,
           },
-          cart: cartData,
+          // cart: cartData,
           loading: false
         });
 

@@ -9,7 +9,7 @@ const Product_pg = () => {
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const { toggleFavorite, cart } = useStore()
+  const {  cart, removeFromCart, toggleCart } = useStore()
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -52,11 +52,17 @@ const Product_pg = () => {
     }
   }, [id])
 
-  const handleToggleFavorite = () => {
+  // const handleToggleFavorite = () => {
+  //   if (product) {
+  //     toggleFavorite(product)
+  //   }
+  // }
+    const handleToggleCart = () => {
     if (product) {
-      toggleFavorite(product)
+      toggleCart(product)
     }
   }
+
 
   const isLiked = product ? cart.some(item => item.productId === product.productId) : false
 
@@ -83,7 +89,8 @@ const Product_pg = () => {
           <p className="product_price">Цена: {product.price} ₽</p>
           <button
             className={`add_to_likely_btn ${isLiked ? 'active' : ''}`}
-            onClick={handleToggleFavorite}
+            // onClick={handleRemove(cart.cartItemId)}
+            onClick={handleToggleCart}
           >
             {isLiked ? 'Удалить из корзины' : 'Добавить в корзину'}
           </button>
