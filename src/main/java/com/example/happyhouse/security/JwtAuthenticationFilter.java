@@ -1,6 +1,7 @@
 package com.example.happyhouse.security;
 
 import com.example.happyhouse.services.CustomUserDetailsService;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,8 +37,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             jwt = authHeader.substring(7);
             try {
                 username = jwtUtil.extractUsername(jwt);
-            } catch (Exception e) {
-                // Можно добавить логирование ошибок
+            } catch (ExpiredJwtException ex) {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access token expired");
+                return;
             }
         }
 
