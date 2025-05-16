@@ -1,8 +1,10 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/furniture_db
-    username: furniture_user
-    password: furniture_pass
+    # используем ENV-переменную SPRING_DATASOURCE_URL,
+    # если она не задана — откатимся к локальной разработке
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/furniture_db}
+    username: ${SPRING_DATASOURCE_USERNAME:furniture_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:furniture_pass}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -18,7 +20,7 @@ spring:
     locations: classpath:db/migration
 
 jwt:
-  secret: "mySuperSecretKeyThatIsAtLeast32BytesLong!"
-  access-expiration-ms: 15000  # 10 часов
-#  access-expiration-ms: 300000  # 5 минут
-  refresh-expiration-ms: 2592000000  # 30 дней
+  # ENV-переменные JWT_SECRET, ACCESS и REFRESH_EXPIRATION
+  secret: ${JWT_SECRET:mySuperSecretKeyThatIsAtLeast32BytesLong!}
+  access-expiration-ms: ${JWT_ACCESS_EXPIRATION_MS:15000}
+  refresh-expiration-ms: ${JWT_REFRESH_EXPIRATION_MS:2592000000}

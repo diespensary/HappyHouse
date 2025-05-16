@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   db:
     image: postgres:15-alpine
@@ -11,6 +12,23 @@ services:
       - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile        # теперь только runtime
+    container_name: furniture_store_backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/furniture_db
+      - SPRING_DATASOURCE_USERNAME=furniture_user
+      - SPRING_DATASOURCE_PASSWORD=furniture_pass
+      - JWT_SECRET=mySuperSecretKeyThatIsAtLeast32BytesLong!
+      - JWT_ACCESS_EXPIRATION_MS=15000
+      - JWT_REFRESH_EXPIRATION_MS=2592000000
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
 
 volumes:
   db_data:

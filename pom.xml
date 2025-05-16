@@ -19,8 +19,8 @@
     <description>HappyHouse</description>
 
     <properties>
-        <!-- java.version используется Spring Boot плагинами -->
-        <java.version>24</java.version>
+        <!-- Указываем совместимую версию Java для сборки -->
+        <java.version>17</java.version>
         <!-- единое свойство для Lombok -->
         <lombok.version>1.18.38</lombok.version>
         <!-- явная версия компиляторного плагина -->
@@ -102,7 +102,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.plugin.version}</version>
                 <configuration>
-                    <!-- единоразом задаёт source и target -->
+                    <!-- задаём релиз 17 для компиляции -->
                     <release>${java.version}</release>
                     <annotationProcessorPaths>
                         <path>
@@ -118,7 +118,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <!-- Никаких исключений Lombok не нужно -->
             </plugin>
         </plugins>
     </build>
