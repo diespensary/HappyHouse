@@ -45,7 +45,7 @@ const Cart = () => {
           Оформить заказ
         </button>
         <ul className='cart-list'>
-          {(cart || []).map((item) => {
+          {(cart || []).reverse().map((item) => {
             const product = items.find(p => p.productId === item.productId)
             console.log(user.id, userId)
             return(

@@ -6,51 +6,54 @@ import Bg_block from '../../Components/Bg_block/Bg_block'
 
 const Product_pg = () => {
   const { id } = useParams()
-  const [product, setProduct] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const {  cart, removeFromCart, toggleCart } = useStore()
+  // const [product, setProduct] = useState(null)
+  // const [loading, setLoading] = useState(true)
+  // const [error, setError] = useState(null)
+  const {fetchProduct,  error, loading, cart, toggleCart, items } = useStore()
+  const product = useStore(state => 
+    state.items.find(p => p.productId === Number(id))
+  )  
+  // useEffect(() => {
+  //   const fetchProductData = async () => {
+  //     try {
+  //       const accessToken = localStorage.getItem('accessToken')
+
+  //       const response = await fetch(`http://localhost:8080/happyhouse/products/${id}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`
+  //         }
+  //       })
+
+  //       if (!response.ok) {
+  //         if (response.status === 401) {
+  //           localStorage.removeItem('accessToken')
+  //           window.location.href = '/login'
+  //         }
+  //         throw new Error('Ошибка загрузки товара')
+  //       }
+
+  //       const data = await response.json()
+  //       setProduct(data)
+  //       setError(null)
+  //     } catch (err) {
+  //       setError(err.message)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+
+  //   if (id) fetchProductData()
+  //   else {
+  //     setError('Товар не найден')
+  //     setLoading(false)
+  //   }
+  // }, [id])
 
   useEffect(() => {
-    const fetchProductData = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken')
-        if (!accessToken) {
-          setError('Требуется авторизация')
-          setLoading(false)
-          return
-        }
-
-        const response = await fetch(`http://localhost:8080/happyhouse/products/${id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`
-          }
-        })
-
-        if (!response.ok) {
-          if (response.status === 401) {
-            localStorage.removeItem('accessToken')
-            window.location.href = '/login'
-          }
-          throw new Error('Ошибка загрузки товара')
-        }
-
-        const data = await response.json()
-        setProduct(data)
-        setError(null)
-      } catch (err) {
-        setError(err.message)
-      } finally {
-        setLoading(false)
-      }
+    if (id) {
+      fetchProduct(id);
     }
-
-    if (id) fetchProductData()
-    else {
-      setError('Товар не найден')
-      setLoading(false)
-    }
-  }, [id])
+  }, [id, fetchProduct]);
 
   // const handleToggleFavorite = () => {
   //   if (product) {

@@ -8,9 +8,8 @@ import useStore from '../../store/store';
 
 
 function Header() {
-	//let [cartOpen, setCartOpen] = useState(false) //хук состояния, по умолчанию false (корзина закрыта)
-	const { orders } = useStore();
-	const { user, cart, clearUser } = useStore();
+	
+	const { cart, clearUser } = useStore();
 	const navigate = useNavigate();
   
 	const handleLogout = () => {
@@ -40,9 +39,7 @@ function Header() {
 				<li>
 					<Link to='/HappyHouse/profile' className='link profile-icon'>
 						<MdManageAccounts style={{'font-size':20}} />
-						{/* <span style={{'font-size':12}}>{user.firstName}</span> */}
 						<span style={{'font-size':12}}>{userFirstName}</span>
-
 					</Link>
 				</li>				
 				<li className='cart-link'>
@@ -50,8 +47,8 @@ function Header() {
 				</li>
 				<li>
 					<Link to='/HappyHouse/login' 
-					className='link'
-					onClick={handleLogout}>
+						className='link'
+						onClick={handleLogout}>
 						Выход
 					</Link>
 				</li>

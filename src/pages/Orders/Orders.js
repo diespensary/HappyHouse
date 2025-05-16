@@ -1,40 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Bg_block from '../../Components/Bg_block/Bg_block';
 import './Orders.css'; // Создайте новый файл стилей
+import useStore from '../../store/store';
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const {fetchOrders, loading, error, orders} = useStore();
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const userId = localStorage.getItem('userId');
-        const token = localStorage.getItem('accessToken');
-
-        const response = await fetch(`http://localhost:8080/happyhouse/orders/${userId}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Ошибка загрузки: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setOrders(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrders();
-  }, []);
+    if (userId) {
+      fetchOrders(userId);
+    }
+  }, [userId, fetchOrders]);
 
   const formatDate = (dateString) => {
     const options = { 
@@ -53,16 +30,16 @@ const Orders = () => {
   return (
     <Bg_block header="История заказов">
       <div className="orders-container">
-        {orders.length === 0 ? (
+        {!orders || orders.length === 0 ? (
           <div className="empty-orders">У вас пока нет заказов</div>
         ) : (
-          orders.map((order, orderNum=1) => (
+          orders.reverse().map((order, orderNum) => (
             <div key={order.orderId} className="order-card">
               <div className="order-header">
                 <div className="order-meta">
                   {/* <h3>Заказ №{order.orderId}</h3> */}
-                  <h3>Заказ №{orderNum++}</h3>
-                  <span className="order-date">{formatDate(order.createdAt)}</span>
+                  <h3>Заказ {formatDate(order.createdAt)}</h3>
+                  {/* <span className="order-date">{formatDate(order.createdAt)}</span> */}
                 </div>
                 <div className="order-total">
                   Итого: {order.totalAmount.toLocaleString('ru-RU', {
@@ -74,7 +51,7 @@ const Orders = () => {
               </div>
 
               <div className="order-items">
-                <h4>Состав заказа:</h4>
+                <h5>Состав заказа:</h5>
                 {order.orderItems.map((item) => (
                   <div key={item.orderItemId} className="order-item">
                     <div className="item-info">

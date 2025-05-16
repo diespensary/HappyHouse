@@ -29,14 +29,7 @@ const fetchUserData = async (userId) => {
 			localStorage.removeItem('userId');
 			throw new Error('Сессия истекла. Требуется повторный вход');
 		}
-	
-		if (response.status === 403) {
-			throw new Error('Доступ запрещен');
-		}
-	
-		if (response.status === 404) {
-			throw new Error('Пользователь не найден');
-		}
+
 	
 		if (!response.ok) {
 			throw new Error(`Ошибка сервера: ${response.status}`);
