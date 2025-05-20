@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import './Cart.css';
+import styles from './Cart.module.css';
 import { Link } from 'react-router-dom';
 import useStore from '../../store/store';
 import Bg_block from '../../Components/Bg_block/Bg_block';
 
 const Cart = () => {
-  // const {cart, deleteFromCart} = useStore();
   const { cart, loading, error, fetchCart, removeFromCart, updateCartItem, user, items, addOrder} = useStore();
   const userId = localStorage.getItem('userId'); 
 
@@ -16,8 +15,7 @@ const Cart = () => {
     } catch (error) {
       console.error('Ошибка оформления заказа:', error);
     }
-  };
-  
+  };  
 
   useEffect(() => {
     if (userId) {
@@ -40,39 +38,41 @@ const Cart = () => {
       ) : 
       (
         <>
-        <button className='make-an-order__btn'
-        onClick={handleAddOrder}>
+        <button className={`${styles.make_an_order__btn}`}
+          onClick={handleAddOrder}>
           Оформить заказ
         </button>
-        <ul className='cart-list'>
+        <ul className={`${styles.cart_list}`}>
           {(cart || []).reverse().map((item) => {
             const product = items.find(p => p.productId === item.productId)
             console.log(user.id, userId)
             return(
-              <li className='cart-item' key={product.productId}>
+              <li className={`${styles.cart_item}`} key={product.productId}>
                 <Link to={`/HappyHouse/product/${product.productId}`}>
-                  <img className='cart-item__img' src={product.image_path} alt={product.name} />
+                  <img className={`${styles.cart_item__img}`} src={product.image_path} alt={product.name} />
                 </Link>
-                <div className='cart-item__info'>
+                <div className={`${styles.cart_item__info}`}>
                   <Link to={`/HappyHouse/product/${product.productId}`}>
-                    <h3 className='cart-item__title'>{product.name}</h3>
-                    <p className='cart-item__price'>{product.price}₽</p>
+                    <h3 className={`${styles.cart_item__title}`}>{product.name}</h3>
+                    <p className={`${styles.cart_item__price}`}>{product.price}₽</p>
                   </Link>
   
-                  <div className='quantity-control'>
+                  <div className={`${styles.quantity_control}`}>
                     <button 
+                      className={`${styles.quantity_control_button}`}
                       onClick={() => updateCartItem(item.cartItemId, item.count - 1)}
                       disabled={item.count <= 1}
                     >-</button>
-                    <span>{item.count}</span>
+                    <span className={`${styles.quantity_control_span}`}>{item.count}</span>
                     <button 
+                      className={`${styles.quantity_control_button}`}
                       onClick={() =>  updateCartItem(item.cartItemId, item.count + 1)}
                     >+</button>
                   </div>
   
                 </div>
                 <button
-                  className='cart-item__delete-btn'
+                  className={`${styles.cart_item__delete_btn}`}
                   // onClick={() => deleteOrder(order.id)}>
                   onClick={() => handleRemove(item.cartItemId)}>  
                   Удалить

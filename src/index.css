@@ -1,60 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-
-body{
-	background-color: antiquewhite;
-	color: #222;
-
-	font-family: "Montserrat", sans-serif !important; /* шрифт: */
-  font-weight: 300;
-  font-style: normal; 
-}
-.link{
+/* .link{
 	text-decoration: none;
 	color: black;
 }
 a{
 	text-decoration: none;
-}
-.wrapper{
-	width: 100%;
-	margin: 50px auto;
-}
+} */
 
-.emptyOrders{
-	display: flex;
-	justify-content: center;
-}
 
-.row{
-	width: 100%;
-}
 
-.categ_items{
-	background-color: aliceblue;
-	border-radius: 70px;
-}
 
-div.btn_add{
-	position: absolute;
-	right: 20px;
-	bottom: 20px;
-	background-color: rgb(67, 124, 240);
-	border-radius: 50%;
-	width: 35px;
-	height: 35px;
-	text-align: center;
-	color: aliceblue;
-	cursor: pointer;
-	font-weight: 500;
-	line-height: 35px;
-	user-select: none; /*нельзя выделять текст чтобы  */
-	transition: transform 500ms ease;
-}
-div .btn_add:hover{
-	transform: scale(1.25);
-	background-color: rgb(52, 115, 240);
-}
+/* 
 .shop-cart-btn{
 	transform: scale(1.5);
 	cursor: pointer;
@@ -71,10 +27,10 @@ div .btn_add:hover{
 	right: 0;
 	top: 40px;
 	width: 450px;
-	/* min-height: 100px; */
+	/* min-height: 100px; *
 	background-color: #d5ceab;
 	-webkit-box-shadow: 6px 10px 8px 1px rgba(34, 47, 56, 0.17);
-	/* -moz-box-shadow: 6px 10px 8px 1px rgba(34, 47, 56, 0.17); */
+	/* -moz-box-shadow: 6px 10px 8px 1px rgba(34, 47, 56, 0.17); *
 	box-shadow: 6px 10px 8px 1px rgba(34, 47, 56, 0.17);
 	z-index: 10;
 	border-radius: 10px;
@@ -84,4 +40,4 @@ div .btn_add:hover{
 .shop-cart .shop-cart-footer{
 	font-weight: 600;
 	font-size: 20px;
-}
+} */

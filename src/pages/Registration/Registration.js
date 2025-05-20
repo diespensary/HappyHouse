@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Registration.css';
+import styles from './Registration.module.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Input from 'react-phone-number-input/input'
@@ -55,12 +55,13 @@ function Registration() {
   };
 
   return (
-    <div className='register_page'>
-      <div className='registr'>
+    <div className={`${styles.register_page}`}>
+      <div className={`${styles.registr}`}>
         <h2>Регистрация</h2>
-        <form onSubmit={handleRegistration} autoComplete="off">
+        <form className={`${styles.form}`} onSubmit={handleRegistration} autoComplete="off">
           <div className='col'>
             <input
+              className={`${styles.input}`}
               type="text"
               placeholder="Имя"
               name="firstName"
@@ -72,6 +73,7 @@ function Registration() {
 
           <div className='col'>
             <input
+              className={`${styles.input}`}
               type="text"
               placeholder="Фамилия"
               name="lastName"
@@ -83,6 +85,7 @@ function Registration() {
 
           <div className='col'>
             <input
+              className={`${styles.input}`}
               type="email"
               placeholder="Email"
               name="email"
@@ -94,6 +97,7 @@ function Registration() {
 
           <div className='col'>
             <input
+              className={`${styles.input}`}
               type="password"
               placeholder="Пароль"
               name="password"
@@ -102,20 +106,10 @@ function Registration() {
               required
             />
           </div>
-
-          {/* <div className='col'>
-            <input
-              type="tel"
-              placeholder="8-999-999-9999"
-              name="phoneNumber"
-              pattern="[0-9]-[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              value={formData.phoneNumber}
-              onChange={handleInputChange}
-            />
-          </div> */}
           <div className='col'>
             <Input
-              placeholder="Enter phone number"
+              className={`${styles.input}`}
+              placeholder="Введите номер телефона"
               name="phoneNumber"
               value={formData.phoneNumber}
               onChange={handlePhoneChange}
@@ -125,6 +119,7 @@ function Registration() {
 
           <div className='col'>
             <input
+              className={`${styles.input}`}
               type="text"
               placeholder="Адрес"
               name="address"
@@ -133,14 +128,14 @@ function Registration() {
             />
           </div>
 
-          {error && <div className="error-message">{error}</div>}
+          {error && <div>{error}</div>}
 
-          <button className="reg_btn" type="submit">
+          <button className={`${styles.reg_btn}`} type="submit">
             Зарегистрироваться
           </button>
 
           <div
-            className='go_to_register'
+            className={`${styles.go_to_login}`}
             onClick={() => navigate("/HappyHouse/login")}
           >
             На страницу входа

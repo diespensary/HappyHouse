@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './login.css';
+import styles from './Login.module.css';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../../store/store';
 
@@ -8,7 +8,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { setUser, user, login } = useStore();
+  const { login } = useStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,13 +26,14 @@ function Login() {
   };
 
   return (
-    <div className='register_page'>
-      <div className='registr'>
+    <div className={`${styles.login_page}`}>
+      <div className={`${styles.login}`}>
         <h2>Добро пожаловать</h2>
         {/* <form onSubmit={handleLogin}> */}
-        <form onSubmit={handleLogin}>
+        <form className={`${styles.form}`} onSubmit={handleLogin}>
           <div className='col'>
             <input
+              className={`${styles.input}`}
               type="email"
               placeholder="Email"
               value={email}
@@ -43,6 +44,7 @@ function Login() {
 
           <div className='col'>
             <input
+              className={`${styles.input}`}
               type="password"
               placeholder="Пароль"
               value={password}
@@ -53,12 +55,12 @@ function Login() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button className="reg_btn" type="submit">
+          <button className={`${styles.enter_btn}`} type="submit">
             Вход
           </button>
 
           <div
-            className='go_to_register'
+            className={`${styles.go_to_register}`}
             onClick={() => navigate("/HappyHouse/register")}
           >
             Зарегистрироваться

@@ -3,7 +3,7 @@ import Presentation from '../../Components/Presentation/Presentation'
 import Categories from '../../Components/Categories/Categories'
 import Items from '../../Components/Items/Items'
 import useStore from '../../store/store';
-
+import styles from './Main.module.css';
 
 function Main() {
 	const { setItems, setCurrentItems, fetchAllProducts } = useStore();
@@ -16,7 +16,7 @@ function Main() {
 	return (
 		<>
 			<Presentation/>
-			  <div className='categ_items container'>
+			  <div className={`${styles.categ_items} container`}>
 				<Categories />
 				<Items />
 			  </div>

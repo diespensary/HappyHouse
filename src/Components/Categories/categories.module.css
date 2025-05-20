@@ -1,7 +1,7 @@
-div .categories{
+.categories{
 	padding-top: 3%;
 }
-div .category{
+.category{
 	font-size: 20px;
 	font-weight: 500;
 	border-radius: 80px;
@@ -15,7 +15,7 @@ div .category{
 	transition: all 500ms ease;
 	margin-bottom: 20px;
 }
-div .category:hover{
+.category:hover{
 	transform:scale(1.1);
 	border-color: #3e72d9;
 

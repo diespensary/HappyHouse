@@ -1,13 +1,13 @@
 import React from 'react'
-import './present.css'
+import styles from './present.module.css'
 
 function Presentation() {
 	return (
 		// <section className='pres'>
-			<section className='block'>
-				<div className='presentation'>
-				<span>Товары для вашего дома</span>
-				<p>по низким ценам</p>
+			<section className={`${styles.block}`}>
+				<div className={`${styles.presentation}`}>
+					<span className={`${styles.span}`}>Товары для вашего дома</span>
+					<p className={`${styles.p}`}>по низким ценам</p>
 				</div>
 			</section>
 		

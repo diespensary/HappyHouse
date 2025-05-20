@@ -1,24 +1,28 @@
-.cart {
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
+.make_an_order__btn{
+	font-size: 20px;
+	font-weight: 500;
+	border-radius: 80px;
+	background-color: rgb(196,208,250);
+	margin-left: 1%;
+	margin-right: 1%;
+	justify-content: center;
+	cursor: pointer;
+	border: 1px solid transparent;
+	transition: all 500ms ease;
+	margin-bottom: 20px;
 }
-    
-.cart h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  color: #333;
-}
+.make_an_order__btn:hover{
+	transform:scale(1.1);
+	border-color: #3e72d9;
 
-.cart-list {
+}
+.cart_list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.cart-item {
+.cart_item {
   display: flex;
   align-items: center;
   padding: 10px;
@@ -26,11 +30,11 @@
   text-decoration: none;
 }
 
-.cart-item:last-child {
+.cart_item:last-child {
   border-bottom: none;
 }
 
-.cart-item__img {
+.cart_item__img {
   width: 80px;
   height: 80px;
   object-fit: cover;
@@ -38,23 +42,23 @@
   margin-right: 15px;
 }
 
-.cart-item__info {
+.cart_item__info {
   flex-grow: 1;
 }
 
-.cart-item__title {
+.cart_item__title {
   margin: 0;
   font-size: 18px;
   color: #333;
 }
 
-.cart-item__price {
+.cart_item__price {
   margin: 5px 0 0;
   font-size: 16px;
   color: #666;
 }
 
-.cart-item__delete-btn {
+.cart_item__delete_btn {
   background-color: #ff4d4d;
   color: white;
   border: none;
@@ -64,20 +68,20 @@
   transition: background-color 0.3s ease;
 }
 
-.cart-item__delete-btn:hover {
+.cart_item__delete_btn:hover {
   background-color: #ff1a1a;
 }
 
 
 
-.quantity-control {
+.quantity_control {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 10px;
 }
 
-.quantity-control button {
+.quantity_control_button {
   width: 32px;
   height: 32px;
   border: 1px solid #ddd;
@@ -92,12 +96,12 @@
   justify-content: center;
 }
 
-.quantity-control button:hover {
+.quantity_control_button:hover {
   background-color: #f0f0f0;
   border-color: #ccc;
 }
 
-.quantity-control span {
+.quantity_control_span {
   min-width: 36px;
   text-align: center;
   font-size: 16px;

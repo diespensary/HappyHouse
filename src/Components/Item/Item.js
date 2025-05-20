@@ -1,30 +1,25 @@
 import React from 'react'
-import './item.css'
+import styles from './item.module.css'
 import { Link } from 'react-router-dom'
 import useStore from '../../store/store'
 
-function Item({item, onAdd}) {
+function Item({item}) {
 	const userId = localStorage.getItem('userId');
-
-	// const imgPath = require(`./img/${props.item.img}`).default;
-	// const {addToCart} = useStore();
 
 	return (
 	
-			<div className='item  '>
+			<div className={`${styles.item}  `}>
 
-				<Link to={`/HappyHouse/product/${item.productId}`}  className='item_link'>	
-					<img src={item.image_url} alt={item.name}/>
-					<h2 className='item-h2'> {item.name} </h2>
-					{/* <p>{item.wood_type}, {item.finish} finish</p> */}
-					<p> {item.finish} finish</p>
+				<Link to={`/HappyHouse/product/${item.productId}`}  className={`${styles.item_link}`}>	
+					<img className={`${styles.img}`} src={item.image_url} alt={item.name}/>
+					<h2 className={`${styles.item_h2}`}> {item.name} </h2>
+					{/* <p> {item.finish} finish</p> */}
+					<div >{item.description}</div>
 					<b>{item.price}₽</b>
 				</Link>
-				<div className='btn_add' 
-				// onClick={() => onAdd(item)}
-				onClick={() => useStore.getState().addToCart(userId, item.productId, 1)}
-				>
-				+ </div>
+				<div className={`${styles.btn_add}`} 
+					onClick={() => useStore.getState().addToCart(userId, item.productId, 1)}
+				> + </div>
 			</div>
 
 	)

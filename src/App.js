@@ -2,6 +2,7 @@ import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
 import Main from "./pages/main/Main";
 import Registration from "./pages/Registration/Registration";
+import './global.css'
 
 
 import { BrowserRouter as Router, Routes, Route, Link, Navigate, Outlet } from 'react-router';
@@ -19,8 +20,6 @@ const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('accessToken');
   
   return user.id && token ? children : <Navigate to="/HappyHouse/login" replace />;
-  // return token ? children : children;
-
 };
 
 // Компонент для редиректа авторизованных пользователей

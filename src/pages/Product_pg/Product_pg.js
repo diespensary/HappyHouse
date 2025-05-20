@@ -1,53 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import "./Product.css"
+import React, { useEffect } from 'react'
+import styles from "./Product.module.css"
 import useStore from '../../store/store'
 import { useParams } from 'react-router-dom'
 import Bg_block from '../../Components/Bg_block/Bg_block'
 
 const Product_pg = () => {
   const { id } = useParams()
-  // const [product, setProduct] = useState(null)
-  // const [loading, setLoading] = useState(true)
-  // const [error, setError] = useState(null)
-  const {fetchProduct,  error, loading, cart, toggleCart, items } = useStore()
+  const {fetchProduct,  error, loading, cart, toggleCart } = useStore()
   const product = useStore(state => 
     state.items.find(p => p.productId === Number(id))
   )  
-  // useEffect(() => {
-  //   const fetchProductData = async () => {
-  //     try {
-  //       const accessToken = localStorage.getItem('accessToken')
-
-  //       const response = await fetch(`http://localhost:8080/happyhouse/products/${id}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`
-  //         }
-  //       })
-
-  //       if (!response.ok) {
-  //         if (response.status === 401) {
-  //           localStorage.removeItem('accessToken')
-  //           window.location.href = '/login'
-  //         }
-  //         throw new Error('Ошибка загрузки товара')
-  //       }
-
-  //       const data = await response.json()
-  //       setProduct(data)
-  //       setError(null)
-  //     } catch (err) {
-  //       setError(err.message)
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   }
-
-  //   if (id) fetchProductData()
-  //   else {
-  //     setError('Товар не найден')
-  //     setLoading(false)
-  //   }
-  // }, [id])
 
   useEffect(() => {
     if (id) {
@@ -55,11 +17,6 @@ const Product_pg = () => {
     }
   }, [id, fetchProduct]);
 
-  // const handleToggleFavorite = () => {
-  //   if (product) {
-  //     toggleFavorite(product)
-  //   }
-  // }
     const handleToggleCart = () => {
     if (product) {
       toggleCart(product)
@@ -76,22 +33,25 @@ const Product_pg = () => {
   return (
     <Bg_block>
       <div className='row'>
-        <div className="product_image col-7">
-          <img src={product.imageUrl} alt={product.name} />
+        <div className={`col-7`}>
+          <img className={styles.image} 
+            src={product.imageUrl} 
+            alt={product.name} 
+          />
         </div>
-        <div className="product_details col-5">
+        <div className=" col-5">
           <h1>{product.name}</h1>
-          <p className="product_description">{product.description}</p>
-          <div className="product_specs">
+          <p>{product.description}</p>
+          <div>
             <h2>Характеристики:</h2>
             <ul>
               <li>Артикул: {product.productId}</li>
               <li>Категория: {product.categoryId}</li>
             </ul>
           </div>
-          <p className="product_price">Цена: {product.price} ₽</p>
+          <p>Цена: {product.price} ₽</p>
           <button
-            className={`add_to_likely_btn ${isLiked ? 'active' : ''}`}
+            className={`${styles.add_to_likely_btn} ${isLiked ? styles.active : ''}`}
             // onClick={handleRemove(cart.cartItemId)}
             onClick={handleToggleCart}
           >

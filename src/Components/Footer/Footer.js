@@ -1,10 +1,10 @@
 import React from 'react'
 
-import './footer.css'
+import styles from './footer.module.css'
 
 function Footer() {
 	return (
-		<footer> Все правва защищены &copy; </footer>
+		<footer className={styles.footer}> Все права защищены &copy; </footer>
 	)
 }
 

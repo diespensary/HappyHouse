@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FaShoppingCart } from "react-icons/fa";
 import { MdManageAccounts } from "react-icons/md";
 
-import './Header.css'
+import styles from './Header.module.css'
 import { Link, useNavigate } from 'react-router';
 import useStore from '../../store/store';
 
@@ -25,27 +25,27 @@ function Header() {
 	const userFirstName = useStore(state => state.user.firstName);
 
 	return (
-	<header className='container'>
-		<div className='containr  navbarr'>
-			<span className='logo col-4'>
+	<header className={`${styles.header} container`}>
+		<div className={`${styles.navbarr} container`}>
+			<span className={`${styles.logo} col-4`}>
 				<Link to='/HappyHouse/main' className='link'>
 					Happy House
 				</Link>
 			</span>
 			
-			<ul className='nav col-8'>
-				<li ><Link to='/HappyHouse/main' className='link'>Главная </Link></li>			
-				<li ><Link to='/HappyHouse/orders' className='link'>Заказы </Link></li>						
-				<li>
-					<Link to='/HappyHouse/profile' className='link profile-icon'>
+			<ul className={`${styles.nav} col-8`}>
+				<li className={`${styles.header_li}`} ><Link to='/HappyHouse/main' className='link'>Главная </Link></li>			
+				<li className={`${styles.header_li}`} ><Link to='/HappyHouse/orders' className='link'>Заказы </Link></li>						
+				<li className={`${styles.header_li}`}>
+					<Link to='/HappyHouse/profile' className={`${styles.profile_icon} link`}>
 						<MdManageAccounts style={{'font-size':20}} />
 						<span style={{'font-size':12}}>{userFirstName}</span>
 					</Link>
 				</li>				
-				<li className='cart-link'>
+				<li className={`${styles.cart_link, styles.header_li}`}>
 					<Link to="/HappyHouse/cart" className='link'><FaShoppingCart/>({ cart?.length || 0})</Link>
 				</li>
-				<li>
+				<li className={`${styles.header_li}`}>
 					<Link to='/HappyHouse/login' 
 						className='link'
 						onClick={handleLogout}>

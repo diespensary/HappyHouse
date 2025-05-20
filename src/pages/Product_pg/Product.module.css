@@ -1,14 +1,4 @@
-
-.product_container {
-  display: flex;
-  gap: 40px;
-  margin-top: 20px;
-	background-color: aliceblue;
-	padding: 27px;
-	border-radius: 30px;
-}
-
-.product_image img {
+.image{
   max-width: 100%;
   height: auto;
   border-radius: 8px;
@@ -23,13 +13,14 @@
 	color: white;
   padding: 10px 20px;
   border-radius: 32px;
+	border: solid ;
 	text-align: center;
 }
 .add_to_likely_btn:hover, .add_to_likely_btn.active{
 	background-color: red;
 	transform: scale(1.05);
 }
-.btn_to_products{
+/* .btn_to_products{
   background-color:  rgb(67, 124, 240);
   font-size: 22px;
 	cursor: pointer;
@@ -42,4 +33,4 @@
 .btn_to_products:hover{
 	transform: scale(1.05);
 
-}
+} */

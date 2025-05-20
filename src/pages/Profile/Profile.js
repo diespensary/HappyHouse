@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
-import './profile.css';
+import styles from './profile.module.css';
 import Bg_block from '../../Components/Bg_block/Bg_block';
 import useStore from '../../store/store';
 import ChangePasswordForm from '../../Components/ChangePasswordForm/ChangePasswordForm';
@@ -73,10 +73,11 @@ const Profile = () => {
   return (
     <Bg_block header="Профиль">
       {isEditing ? (
-        <form className="profile-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Имя:</label>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.form_group}>
+            <label className={styles.form_group_label}>Имя:</label>
             <input
+              className={styles.form_group_input}
               type="text"
               name="firstName"
               value={formData.firstName}
@@ -85,9 +86,10 @@ const Profile = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label>Фамилия:</label>
+          <div className={styles.form_group}>
+            <label className={styles.form_group_label}>Фамилия:</label>
             <input
+              className={styles.form_group_input}
               type="text"
               name="lastName"
               value={formData.lastName}
@@ -96,9 +98,10 @@ const Profile = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label>Телефон:</label>
+          <div className={styles.form_group}>
+            <label className={styles.form_group_label}>Телефон:</label>
             <input
+              className={styles.form_group_input}
               type="tel"
               name="phoneNumber"
               value={formData.phoneNumber}
@@ -107,9 +110,10 @@ const Profile = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label>Адрес:</label>
+          <div className={styles.form_group}>
+            <label className={styles.form_group_label}>Адрес:</label>
             <textarea
+              className={styles.form_group_textarea}
               name="address"
               value={formData.address}
               onChange={handleInputChange}
@@ -117,13 +121,13 @@ const Profile = () => {
             />
           </div>
 
-          <div className="form-actions">
-            <button type="submit" className="btn-save profile-btns">
+          <div className={styles.form_actions}>
+            <button type="submit" className={styles.profile_btns}>
               Сохранить
             </button>
             <button
               type="button"
-              className="btn-cancel profile-btns"
+              className={styles.profile_btns}
               onClick={() => setIsEditing(false)}
             >
               Отмена
@@ -132,28 +136,28 @@ const Profile = () => {
         </form>
       ) : (
         <>
-          <h1 className="name">
+          <h1 className={styles.name}>
             <span>
               {user?.firstName} {user?.lastName}
             </span>
             <FaEdit
-              className="edit-icon"
+              className={styles.edit_icon}
               onClick={() => setIsEditing(true)}
             />
           </h1>
-          <h4 className="user-email">Почта: {user?.email}</h4>
+          <h4 className={styles.user_email}>Почта: {user?.email}</h4>
           {user?.phoneNumber && (
-            <h4 className="user-phone">Телефон: {user.phoneNumber}</h4>
+            <h4 className={styles.user_phone}>Телефон: {user.phoneNumber}</h4>
           )}
           {user?.address && (
-            <h4 className="user-address">Адрес: {user.address}</h4>
+            <h4 className={styles.user_address}>Адрес: {user.address}</h4>
           )}
         </>
       )}
 
       {!isChanging && (
         <button
-          className="changePass-btn profile-btns"
+          className={styles.profile_btns}
           onClick={() => setIsChanging(true)}
         >
           Изменить пароль
