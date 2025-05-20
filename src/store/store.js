@@ -93,23 +93,12 @@ const useStore = create(
     login: async (email, password) => {
       set({ loading: true, error: null });
       try {
-        // 1. Выполняем запрос на логин
-        // const loginResponse = await fetch('http://localhost:8080/happyhouse/auth/login', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({ email, password })
-        // });
-        // if (!loginResponse.ok) throw new Error('Ошибка авторизации');
 
         const { data } = await instance.post('/happyhouse/auth/login', {
           email,
           password
         });        
         
-        // const { accessToken, refreshToken } = await loginResponse.json();
-        // localStorage.setItem('accessToken', accessToken);
-        // localStorage.setItem('refreshToken', refreshToken);
-
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
 
@@ -140,57 +129,33 @@ const useStore = create(
     },
 
     // метод для работы с токенами
-    // refreshTokens: async () => {
-    //   try {
-    //     const response = await instance.post('/happyhouse/auth/refresh', {
-    //       refreshToken: localStorage.getItem('refreshToken')
-    //     });
-        
-    //     localStorage.setItem('accessToken', response.data.accessToken);
-    //     localStorage.setItem('refreshToken', response.data.refreshToken);
-    //     return response.data.accessToken;
-    //   } catch (error) {
-    //     get().clearUser();
-    //     throw error;
-    //   }
-    // },
-refreshTokens: async () => {
-  try {
-    const refreshToken = localStorage.getItem('refreshToken');
-    if (!refreshToken) throw new Error("No refresh token");
+    refreshTokens: async () => {
+      try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) throw new Error("No refresh token");
 
-    // Используем instance вместо axios!
-    const response = await instance.post('/happyhouse/auth/refresh', { 
-      refreshToken // Ключ должен совпадать с ожидаемым на сервере
-    });
+        const response = await instance.post('/happyhouse/auth/refresh', { 
+          refreshToken // Ключ должен совпадать с ожидаемым на сервере
+        });
 
-    localStorage.setItem('accessToken', response.data.accessToken);
-    localStorage.setItem('refreshToken', response.data.refreshToken);
-    return response.data.accessToken;
-  } catch (error) {
-    this.clearUser();
-    window.location.href = '/login'; // Форсированный редирект
-    throw error;
-  }
-},
+        localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+        return response.data.accessToken;
+      } catch (error) {
+        this.clearUser();
+        window.location.href = '/HappyHouse/login'; // Форсированный редирект
+        throw error;
+      }
+    },
 
     // Метод для загрузки данных пользователя
     fetchUserData: async (userId) => {
       set({ loading: true, error: null });
 
       try {
-        // const response = await fetch(`http://localhost:8080/happyhouse/users/${userId}`, {
-        //   headers: {
-        //     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-        //   }
-        // });
-        // if (!response.ok) throw new Error('Ошибка загрузки данных пользователя');
-        // return await response.json();
         const { data } = await instance.get(`/happyhouse/users/${userId}`);
         return data;
       } catch (error) {
-        // set({ error: error.message });
-
         set({ error: error.data?.message || 'Ошибка загрузки данных пользователя' });
         throw error;
       }
@@ -216,20 +181,11 @@ refreshTokens: async () => {
       set({ loading: true, error: null });
 
       try {
-        // const response = await instance.get(`/happyhouse/products/${prodId}`, {
-        //   headers: {
-        //     Authorization: `Bearer ${localStorage.getItem('accessToken')}`
-        //   }
-        // })
-        // return response.data
         const { data } = await instance.get(`/happyhouse/products/${prodId}`);
         set({ loading: false});
         return data;
       } catch (err) {
-        // if (err.response?.status === 401) {
-        //   localStorage.removeItem('accessToken')
-        //   window.location.href = '/login'
-        // }
+
         set({error: err})
         throw new Error(err.response?.data?.message || 'Ошибка загрузки товара')
       }
@@ -239,16 +195,6 @@ refreshTokens: async () => {
     fetchCart: async (userId) => {
       set({ loading: true, error: null });
       try {
-        // const token = localStorage.getItem('accessToken');
-        // const response = await fetch(`http://localhost:8080/happyhouse/cart/${userId}`, {
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`
-        //   }
-        // });        
-        // if (!response.ok) throw new Error('Ошибка загрузки корзины');
-        // const cartData = await response.json();
-        // set({ cart: cartData.cartItems }); 
-
         const { data } = await instance.get(`/happyhouse/cart/${userId}`);
         set({ cart: data.cartItems });
         return data.cartItems;        
@@ -259,37 +205,69 @@ refreshTokens: async () => {
       }
     },
 
-    // Метод для загрузки заказов
     fetchOrders: async (userId) => {
       set({ loading: true, error: null });
       try {
         const { data } = await instance.get(`/happyhouse/orders/${userId}`);
-        set({ orders: data });
+        set({ 
+          orders: Array.isArray(data) ? data : [] // Гарантируем массив
+        });
         return data;
       } catch (error) {
-        set({ errorOrders: error.response?.data?.message || 'Ошибка загрузки заказов' });
+        set({ 
+          orders: [], // Сбрасываем до пустого массива
+          errorOrders: error.response?.data?.message || 'Ошибка загрузки заказов'
+        });
         throw error;
-      } finally {
-        set({ loading: false });
+      }
+    },
+    // Метод для обновления пароля пользователя
+    updateUserPassword: async (userId, oldPassword, newPassword) => {
+      set({ loading: true, error: null });
+      try {
+        const { data } = await instance.put(`/happyhouse/users/${userId}/change-password`, {
+          oldPassword,
+          newPassword
+        });
+    
+        set({ loading: false, error: null });
+        return data;
+      } catch (error) {
+        set({
+          error: error.response?.data?.message || 'Ошибка смены пароля',
+          loading: false
+        });
+        throw error;
+      }
+    },
+    // Метод для обновления данных пользователя
+    updateUserProfile: async (userId, formData) => {
+      set({ loading: true, error: null });
+      try {
+        const { data } = await instance.put(`/happyhouse/users/${userId}`, formData);
+        
+        // Синхронизируем обновленные данные с состоянием
+        set(state => ({
+          user: {
+            ...state.user,
+            ...data
+          },
+          loading: false
+        }));
+        
+        return data;
+      } catch (error) {
+        set({
+          error: error.response?.data?.message || 'Ошибка обновления профиля',
+          loading: false
+        });
+        throw error;
       }
     },
 
     // Добавление товара в корзину
     addToCart: async (userId, productId, count = 1) => {
       try {
-        // const token = localStorage.getItem('accessToken');
-        // const response = await fetch(`http://localhost:8080/happyhouse/cart/${userId}?productId=${productId}&count=${count}`, {
-        //   method: 'POST',
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`,
-        //     'Content-Type': 'application/json'
-        //   }
-        // });
-
-        // if (!response.ok) throw new Error('Ошибка добавления в корзину');
-        
-        // const updatedCart = await response.json();
-        // set({ cart: updatedCart.cartItems });
         const { data } = await instance.post(`/happyhouse/cart/${userId}`, null, {
           params: { productId, count }
         });
@@ -302,18 +280,6 @@ refreshTokens: async () => {
     // Удаление товара из корзины
     removeFromCart: async (cartItemId) => {
       try {
-        // const token = localStorage.getItem('accessToken');
-        // const response = await fetch(`http://localhost:8080/happyhouse/cart/${cartItemId}`, {
-        //   method: 'DELETE',
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`
-        //   }
-        // });
-
-        // if (!response.ok) throw new Error('Ошибка удаления из корзины');
-        
-        // const updatedCart = await response.json();
-        // set({ cart: updatedCart.cartItems });
         const { data } = await instance.delete(`/happyhouse/cart/${cartItemId}`);
         set({ cart: data.cartItems });
       } catch (error) {
@@ -324,18 +290,6 @@ refreshTokens: async () => {
     // Обновление количества товара
     updateCartItem: async (cartItemId, newCount) => {
       try {
-        // const token = localStorage.getItem('accessToken');
-        // const response = await fetch(`http://localhost:8080/happyhouse/cart/${cartItemId}?count=${newCount}`, {
-        //   method: 'PUT',
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`
-        //   }
-        // });
-
-        // if (!response.ok) throw new Error('Ошибка обновления количества');
-        
-        // const updatedCart = await response.json();
-        // set({ cart: updatedCart.cartItems });
         const { data } = await instance.put(`/happyhouse/cart/${cartItemId}`, null, {
           params: { count: newCount }
         });
@@ -349,30 +303,14 @@ refreshTokens: async () => {
     addOrder: async (userId) => {
       set({ loading: true, error: null });
       try {
-        // const token = localStorage.getItem('accessToken');
-        // const response = await fetch(`http://localhost:8080/happyhouse/orders/${userId}`, {
-        //   method: 'POST',
-        //   headers: {
-        //     'Authorization': `Bearer ${token}`
-        //   }
-        // });
         const { data } = await instance.post(`/happyhouse/orders/${userId}`);
-
-        // if (!response.ok) {
-        //   const errorData = await response.json();
-        //   throw new Error(errorData.message || 'Ошибка оформления заказа');
-        // }
-
-        // const orderData = await response.json();
-        
-        // Обновляем состояние
-        set(state => ({
+        // Перезапрашиваем актуальные данные с сервера
+        const updatedOrders = await get().fetchOrders(userId); 
+        set({ 
           cart: [],
-          // orders: [...state.orders, orderData],
-          orders: [...state.orders, data],
-          loading: false
-        }));
-
+          orders: updatedOrders, // Используем данные с сервера
+          loading: false 
+        });
         return data;
       } catch (error) {
         set({ error: error.message, loading: false });

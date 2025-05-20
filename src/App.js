@@ -43,7 +43,7 @@ const MainLayout = () => (
 function App() {
 
   return (
-    <Router>
+    <Router >
       <div className="App">
         <Routes>
           <Route path="/HappyHouse" element={<Navigate to="/HappyHouse/login" replace />} />

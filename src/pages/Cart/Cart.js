@@ -56,7 +56,7 @@ const Cart = () => {
                 <div className='cart-item__info'>
                   <Link to={`/HappyHouse/product/${product.productId}`}>
                     <h3 className='cart-item__title'>{product.name}</h3>
-                    <p className='cart-item__price'>{product.price}$</p>
+                    <p className='cart-item__price'>{product.price}₽</p>
                   </Link>
   
                   <div className='quantity-control'>

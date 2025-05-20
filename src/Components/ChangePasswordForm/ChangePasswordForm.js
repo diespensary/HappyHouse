@@ -10,6 +10,7 @@ const ChangePasswordForm = ({ setIsChanging, onSuccess }) => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const userId = useStore(state => state.user.id);
+    const updateUserPassword = useStore(state => state.updateUserPassword);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -20,26 +21,7 @@ const ChangePasswordForm = ({ setIsChanging, onSuccess }) => {
         }
 
         try {
-        const token = localStorage.getItem('accessToken');
-        const response = await fetch(
-            `http://localhost:8080/happyhouse/users/${userId}/change-password`,
-            {
-            method: 'PUT',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                oldPassword: formData.oldPassword,
-                newPassword: formData.newPassword
-            })
-            }
-        );
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Ошибка смены пароля');
-        }
+        await updateUserPassword(userId, formData.oldPassword, formData.newPassword);
 
         setSuccess('Пароль успешно изменен');
         setError('');
@@ -49,13 +31,12 @@ const ChangePasswordForm = ({ setIsChanging, onSuccess }) => {
             confirmPassword: ''
         });
         
-        // Автоматическое закрытие через 3 секунды
         setTimeout(() => {
-            onSuccess(); // Или setIsChanging(false)
+            onSuccess();
         }, 3000);
 
         } catch (err) {
-        setError(err.message);
+        setError(err.response?.data?.message || err.message);
         console.error('Password change error:', err);
         }
     };

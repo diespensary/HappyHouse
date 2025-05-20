@@ -18,7 +18,7 @@ function Item({item, onAdd}) {
 					<h2 className='item-h2'> {item.name} </h2>
 					{/* <p>{item.wood_type}, {item.finish} finish</p> */}
 					<p> {item.finish} finish</p>
-					<b>{item.price}$</b>
+					<b>{item.price}₽</b>
 				</Link>
 				<div className='btn_add' 
 				// onClick={() => onAdd(item)}

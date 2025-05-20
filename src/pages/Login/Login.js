@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; 
 import useStore from '../../store/store';
-import { getCurrentUser } from '../../auth/auth';
 
 function Login() {
   const navigate = useNavigate();

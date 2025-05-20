@@ -1,15 +1,3 @@
-/* .cart_list{
-    display: flex;
-    flex-direction: column;
-}
-.cart_item{
-    width: 250px;
-}
-.cart_item__img{
-    width: 100%;
-    height: 100%;
-} */
- 
 .cart {
   padding: 20px;
   background-color: #f9f9f9;

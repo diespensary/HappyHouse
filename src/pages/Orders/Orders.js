@@ -24,16 +24,18 @@ const Orders = () => {
     return new Date(dateString).toLocaleDateString('ru-RU', options);
   };
 
-  if (loading) return <Bg_block header="Заказы"><div className="loading">Загрузка заказов...</div></Bg_block>;
+  // if (loading) return <Bg_block header="Заказы"><div className="loading">Загрузка заказов...</div></Bg_block>;
   if (error) return <Bg_block header="Заказы"><div className="error">Ошибка: {error}</div></Bg_block>;
 
   return (
     <Bg_block header="История заказов">
       <div className="orders-container">
-        {!orders || orders.length === 0 ? (
+        {/* {!orders || orders.length === 0 ? ( */}
+        {orders.length === 0 ? ( // Убрана проверка на null
+
           <div className="empty-orders">У вас пока нет заказов</div>
         ) : (
-          orders.reverse().map((order, orderNum) => (
+          orders?.slice().reverse().map((order, orderNum) => (
             <div key={order.orderId} className="order-card">
               <div className="order-header">
                 <div className="order-meta">
