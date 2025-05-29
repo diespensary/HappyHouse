@@ -1,0 +1,22 @@
+.categories{
+	padding-top: 3%;
+}
+.category{
+	font-size: 20px;
+	font-weight: 500;
+	border-radius: 80px;
+	background-color: rgb(196,208,250);
+	margin-left: 1%;
+	margin-right: 1%;
+	display: flex;
+	justify-content: center;
+	cursor: pointer;
+	border: 1px solid transparent;
+	transition: all 500ms ease;
+	margin-bottom: 20px;
+}
+.category:hover{
+	transform:scale(1.1);
+	border-color: #3e72d9;
+
+}

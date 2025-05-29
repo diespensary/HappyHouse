@@ -1,0 +1,38 @@
+.block{
+	height: 550px;
+}
+.presentation{
+	margin: 50px 0;
+	height: 96%;
+	background-image: url('./../../imgs/room.jpeg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	background-blend-mode: multiply;
+	position: relative;
+	background-color: #959494;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.span{
+
+	font-size: 35px;
+	font-weight: 600;
+	color: aliceblue;
+	user-select: none;
+
+}
+.p{
+	font-size: 20px;
+	font-weight: 600;
+	color: aliceblue;
+	user-select: none;
+
+}
+@media (max-width: 500px) {
+	.block{
+		display: none;
+	}
+}

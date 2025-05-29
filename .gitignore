@@ -2,12 +2,23 @@
 
 # dependencies
 /frontend/node_modules
-
+/backend/target
 # idea
 /.idea
 
+/.classpath
+/.project
 
 # production
 /build
 
+
+
+/backend/.apt_generated
+/backend/.classpath
+/backend/.factorypath
+/backend/.project
+/backend/.settings
+/backend/.springBeans
+/backend/.sts4-cache
 

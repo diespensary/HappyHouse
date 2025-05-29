@@ -1,0 +1,53 @@
+.item{
+	/* max-width: calc(25% - 20px); */
+	max-width: 200px;
+	margin-bottom: 50px;
+	margin-top: 50px;
+	background-color: rgba(233, 230, 230, 0.746);
+	padding:  1%;
+	border-radius: 10px 10px 0 0;
+	position: relative;
+	padding-bottom: 2%;
+	overflow: hidden;
+	/* margin-inline: 10px; */
+	color: black;	
+
+}
+.item_link{
+	text-decoration: none;
+	color: black;
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+.img{
+	width: 100%;
+	border-radius: 10px;
+	transition: transform 500ms ease;
+	margin-bottom: 10px;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+}
+.img:hover{
+	transform: scale(1.05);
+}
+.btn_add{
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+	background-color: rgb(67, 124, 240);
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+	text-align: center;
+	color: aliceblue;
+	cursor: pointer;
+	font-weight: 500;
+	line-height: 35px;
+	user-select: none; /*нельзя выделять текст чтобы  */
+	transition: transform 500ms ease;
+}
+.btn_add:hover{
+	transform: scale(1.25);
+	background-color: rgb(52, 115, 240);
+}
